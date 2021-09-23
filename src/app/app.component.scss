@@ -1,0 +1,12 @@
+// button {
+//   color: white;
+//   background-color: blue;
+// }
+.content {
+  ::ng-deep {
+    button {
+      color: white;
+      background-color: blue !important;
+    }
+  }
+}
