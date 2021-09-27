@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 
 @Component({
   selector: 'app-content-view',
@@ -7,9 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentViewComponent implements OnInit {
 
-  constructor() { }
+  bool_check : boolean;
+  model: string;
+
+  constructor() {
+    this.bool_check = true;
+    this.model = '';
+  }
 
   ngOnInit(): void {
+  }
+
+  functionShowMessage() {
+    alert(this.model);
   }
 
 }

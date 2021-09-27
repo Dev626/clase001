@@ -1,1 +1,27 @@
-<p>content-view works!</p>
+<!-- {{bool_check}} -->
+
+<ng-template [ngIf]="bool_check">
+  <input type="text" [(ngModel)]="model">
+  <button type="button" (click)="functionShowMessage()">click</button>
+  <h1>{{model}}</h1>
+</ng-template>
+
+<div class="d-block" *ngIf="model == 'clave'; else elseBlock">
+  <input type="text" [(ngModel)]="model">
+  <button type="button" (click)="functionShowMessage()">click</button>
+  <h1>{{model}}</h1>
+</div>
+<ng-template #elseBlock>
+  <p>
+    Content to render when condition is false.
+  </p>
+</ng-template>
+
+<!--
+  if(condicion1 && condicion2){
+
+  }
+  if(condicion1 || condicion2){
+
+  }
+-->

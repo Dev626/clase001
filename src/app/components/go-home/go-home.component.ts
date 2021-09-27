@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+} from '@angular/core';
 
 @Component({
   selector: 'app-go-home',
@@ -7,7 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GoHomeComponent implements OnInit {
 
-  constructor() { }
+  app_title: string;
+  app_version: number;
+
+  constructor() {
+    this.app_title = 'Angular';
+    this.app_version = 1;
+  }
 
   ngOnInit(): void {
   }

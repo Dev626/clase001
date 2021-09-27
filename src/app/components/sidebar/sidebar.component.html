@@ -2,10 +2,19 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
   <!-- Sidebar - Brand -->
-  <app-go-top></app-go-top>
+  <app-go-home></app-go-home>
 
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
+
+<div *ngFor="let section of menu">
+  {{ section.header }} <br>
+
+  <div *ngFor="let item of section.list_items">
+    - {{ item.name }} <br>
+  </div>
+
+</div>
 
   <!-- Nav Item - Dashboard -->
   <li class="nav-item active">

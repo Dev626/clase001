@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AdsComponent } from './ads/ads.component';
 import { ContentViewComponent } from './content-view/content-view.component';
@@ -19,7 +20,8 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
 @NgModule({
   imports: [
     // librerias adicionales (Material, NgBootstrap, )
-    FormsModule
+    FormsModule,
+    BrowserModule
   ],
   declarations: [
     MyComponent,
