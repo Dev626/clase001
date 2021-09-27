@@ -7,31 +7,43 @@
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
 
-<div *ngFor="let section of menu">
-  {{ section.header }} <br>
+  <!-- Menu -->
+  <!-- class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" -->
+  <div *ngFor="let section of menu; index as iHead; first as isFirstHead">
+    <!-- Header -->
+    <div class="sidebar-heading">
+      {{ section.header }}
+    </div>
+    <!-- Nav Item -->
+    <ng-template ngFor let-item [ngForOf]="section.list_items" let-iItem="index" let-isFirstItem="first">
+      <!-- [ngClass]="{'active' : item.default}" -->
+      <!-- [ngClass]="item.default ? 'active' : ''" -->
+      <!-- [ngClass]="item.link == 'index.html' ? 'active' : '''" -->
+      <li class="nav-item" [ngClass]="{'active' : item.default}">
+        <!-- <div *ngIf="isFirstHead && isFirstItem">{{item | json}}</div> -->
+        <a class="nav-link" href="{{ item.link }}">
+          <i class="{{ item.icon }}"></i>
+          <span>{{ item.name }}</span>
+        </a>
+      </li>
+    </ng-template>
 
-  <div *ngFor="let item of section.list_items">
-    - {{ item.name }} <br>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
   </div>
 
-</div>
-
-  <!-- Nav Item - Dashboard -->
-  <li class="nav-item active">
+  <!-- <li class="nav-item active">
     <a class="nav-link" href="index.html">
       <i class="fas fa-fw fa-tachometer-alt"></i>
-      <span>Dashboard</span></a>
+      <span>Dashboard</span>
+    </a>
   </li>
-
-  <!-- Divider -->
   <hr class="sidebar-divider">
 
-  <!-- Heading -->
   <div class="sidebar-heading">
     Interface
   </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
       aria-controls="collapseTwo">
@@ -47,7 +59,6 @@
     </div>
   </li>
 
-  <!-- Nav Item - Utilities Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true"
       aria-controls="collapseUtilities">
@@ -65,15 +76,12 @@
     </div>
   </li>
 
-  <!-- Divider -->
   <hr class="sidebar-divider">
 
-  <!-- Heading -->
   <div class="sidebar-heading">
     Addons
   </div>
 
-  <!-- Nav Item - Pages Collapse Menu -->
   <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
       aria-controls="collapsePages">
@@ -94,29 +102,25 @@
     </div>
   </li>
 
-  <!-- Nav Item - Charts -->
   <li class="nav-item">
     <a class="nav-link" href="charts.html">
       <i class="fas fa-fw fa-chart-area"></i>
-      <span>Charts</span></a>
+      <span>Charts</span>
+    </a>
   </li>
 
-  <!-- Nav Item - Tables -->
   <li class="nav-item">
     <a class="nav-link" href="tables.html">
       <i class="fas fa-fw fa-table"></i>
       <span>Tables</span></a>
   </li>
 
-  <!-- Divider -->
   <hr class="sidebar-divider d-none d-md-block">
 
-  <!-- Sidebar Toggler (Sidebar) -->
   <div class="text-center d-none d-md-inline">
     <button class="rounded-circle border-0" id="sidebarToggle"></button>
-  </div>
+  </div> -->
 
-  <!-- Sidebar Message -->
   <app-ads></app-ads>
 
 </ul>

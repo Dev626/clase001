@@ -13,30 +13,45 @@ export class SidebarComponent implements OnInit {
   menu: Array<any>
 
   constructor() {
-    this.menu = [
-      {
-        "list_items": [{
-          "name": "Dashboard",
-          "icon": ""
-        }]
+    this.menu = [{
+      "list_items": [{
+        "name": "Dashboard",
+        "icon": "fas fa-fw fa-tachometer-alt",
+        "link": "index.html",
+        "default": true
+      }]
+    }, {
+      "header": "Interface",
+      "list_items": [{
+        "name": "Components",
+        "icon": "fas fa-fw fa-cog",
+        "link": "#",
+        "default": false
       }, {
-        "header": "Interface",
-        "list_items": [{
-          "name": "Components"
-        }, {
-          "name": "Utilities"
-        }]
+        "name": "Utilities",
+        "icon": "fas fa-fw fa-wrench",
+        "link": "#",
+        "default": false
+      }]
+    }, {
+      "header": "Addons",
+      "list_items": [{
+        "name": "Pages",
+        "icon": "fas fa-fw fa-folder",
+        "link": "#",
+        "default": false
       }, {
-        "header": "Addons",
-        "list_items": [{
-          "name": "Pages"
-        }, {
-          "name": "Charts"
-        }, {
-          "name": "Tables"
-        }]
-      }
-    ];
+        "name": "Charts",
+        "icon": "fas fa-fw fa-chart-area",
+        "link": "#",
+        "default": false
+      }, {
+        "name": "Tables",
+        "icon": "fas fa-fw fa-table",
+        "link": "#",
+        "default": false
+      }]
+    }];
   }
 
   ngOnInit(): void {
