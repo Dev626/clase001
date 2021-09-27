@@ -1,13 +1,11 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
   <!-- Sidebar - Brand -->
   <app-go-home></app-go-home>
-
   <!-- Divider -->
   <hr class="sidebar-divider my-0">
-
   <!-- Menu -->
+  <!-- https://angular.io/api/common/NgForOf -->
   <!-- class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" -->
   <div *ngFor="let section of menu; index as iHead; first as isFirstHead">
     <!-- Header -->

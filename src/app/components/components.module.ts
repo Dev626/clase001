@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AdsComponent } from './ads/ads.component';
+import { ButtonCalcComponent } from './button-calc/button-calc.component';
 import { ContentViewComponent } from './content-view/content-view.component';
 import { DropdownItemComponent } from './dropdown-item/dropdown-item.component';
 import { GoHomeComponent } from './go-home/go-home.component';
@@ -37,7 +38,8 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
     ContentViewComponent,
     AdsComponent,
     GoHomeComponent,
-    GoTopComponent
+    GoTopComponent,
+    ButtonCalcComponent
   ],
   exports: [
     MyComponent,
@@ -53,7 +55,8 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
     ContentViewComponent,
     AdsComponent,
     GoHomeComponent,
-    GoTopComponent
+    GoTopComponent,
+    ButtonCalcComponent
   ]
 })
 

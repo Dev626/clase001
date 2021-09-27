@@ -1,4 +1,12 @@
 <!-- {{bool_check}} -->
+<!-- Nav Item -->
+<ng-template ngFor let-item [ngForOf]="numbers_calc">
+<!-- [textButton]="item.value" -->
+  <button-calc [itemIn]="item" (cuandoElCursorDaClick)="clickParent($event, item)"></button-calc>
+</ng-template>
+
+<hr class="sidebar-divider my-0">
+<br>
 
 <ng-template [ngIf]="bool_check">
   <input type="text" [(ngModel)]="model">
