@@ -1,7 +1,11 @@
 import {
   Component,
+  ElementRef,
   OnInit,
+  ViewChild,
 } from '@angular/core';
+
+import { CalcService } from '@services/calc.service';
 
 @Component({
   selector: 'app-content-view',
@@ -14,6 +18,8 @@ export class ContentViewComponent implements OnInit {
   model: string;
   numbers_calc: any[];
   result?: string;
+  calcService: CalcService = new CalcService();
+  @ViewChild('inputCalc') inputCalc?: ElementRef<HTMLInputElement>;
 
   constructor() {
     this.bool_check = true;
@@ -42,12 +48,7 @@ export class ContentViewComponent implements OnInit {
   }
 
   functionCalc() {
-    this.result = eval(this.model);
-  }
-
-  functionClearCalc() {
-    this.model = '';
-    this.result = '';
+    this.result = this.calcService.evalOperation(this.model);
   }
 
   keyFindBtn(event: any) {
@@ -56,10 +57,24 @@ export class ContentViewComponent implements OnInit {
     })
   }
 
+  functionClearCalc() {
+    this.model = '';
+    this.result = '';
+  }
+
   clickParent(itemIn?: any) {
     this.model +=
       (isNaN(itemIn.value) ? ' ' : '')
       + itemIn.value
       + (isNaN(itemIn.value) ? ' ' : '');
+  }
+
+  PrintViewChild(element: any) {
+    console.log('element:', element)
+    console.log('this.inputCalc:', this.inputCalc)
+    console.log('this.inputCalc:', this.inputCalc?.nativeElement)
+
+    let el = document.getElementById('inputCalc');
+    console.log('el:', el)
   }
 }

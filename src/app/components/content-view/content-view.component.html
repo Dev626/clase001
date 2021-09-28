@@ -7,11 +7,12 @@
   <hr class="sidebar-divider">
   <div class="d-flex">
     <button-calc [classIn]="'btn-secondary'" [itemIn]="{value: 'Result'}" (eventClick)="functionCalc()"></button-calc>
-    <input class="form-control" type="text" [(ngModel)]="model" (keyup.enter)="functionCalc()" (keyup)="keyFindBtn($event)">
+    <input #inputCalc id="inputCalc" class="form-control" type="text" [(ngModel)]="model" (keyup.enter)="functionCalc()" (keyup)="keyFindBtn($event)">
     <button-calc classIn="btn-secondary" [itemIn]="{value: 'Clear'}" (eventClick)="functionClearCalc()"></button-calc>
   </div>
   <h1>{{result}}</h1>
 
+  <button-calc classIn="btn-warning" [itemIn]="{value: 'PrintViewChild'}" (eventClick)="PrintViewChild(inputCalc)"></button-calc>
 
   <ng-template [ngIf]="bool_check">
   </ng-template>
