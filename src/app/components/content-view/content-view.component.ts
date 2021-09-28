@@ -13,11 +13,17 @@ export class ContentViewComponent implements OnInit {
   bool_check: boolean;
   model: string;
   numbers_calc: any[];
+  result?: string;
 
   constructor() {
     this.bool_check = true;
     this.model = '';
     this.numbers_calc = [
+      { value: '-', text: '' },
+      { value: '+', text: '' },
+      { value: '*', text: '' },
+      { value: '/', text: '' },
+      { value: '(', text: '' },
       { value: 0, text: 'zero' },
       { value: 1, text: 'one' },
       { value: 2, text: 'two' },
@@ -28,21 +34,32 @@ export class ContentViewComponent implements OnInit {
       { value: 7, text: 'seven' },
       { value: 8, text: 'eight' },
       { value: 9, text: 'nine' },
+      { value: ')', text: '' },
     ];
   }
 
   ngOnInit(): void {
   }
 
-  functionShowMessage() {
-    alert(this.model);
+  functionCalc() {
+    this.result = eval(this.model);
   }
 
-  clickParent(itemIn: any, item: any) {
-    console.log('itemIn:', itemIn)
-    console.log('item:', item)
-    console.log('this.numbers_calc:', this.numbers_calc)
-    // this.numbers_calc[idx] = itemIn
-    // alert(item.text);
+  functionClearCalc() {
+    this.model = '';
+    this.result = '';
+  }
+
+  keyFindBtn(event: any) {
+    this.numbers_calc.forEach((element, index, array) => {
+      element.class = (element.value == event.key ? 'btn-success' : 'btn-primary');
+    })
+  }
+
+  clickParent(itemIn?: any) {
+    this.model +=
+      (isNaN(itemIn.value) ? ' ' : '')
+      + itemIn.value
+      + (isNaN(itemIn.value) ? ' ' : '');
   }
 }
