@@ -3,7 +3,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 import { CalcService } from '@services/calc.service';
 
@@ -24,11 +29,42 @@ export class ContentViewComponent implements OnInit {
   @ViewChild('inputCalcFalse', { static: false }) inputCalcFalse?: any;
 
   formGroupRegister: FormGroup;
+  firstName: FormControl;
+  lastName: FormControl;
+  inputEmail: FormControl;
+  inputPhoneNumber: FormControl;
+  inputPassword: FormControl;
+  repeatPassword: FormControl;
 
-  constructor() {
+
+  constructor(private formBuilder: FormBuilder) {
     this.titulo = 'Componente Calculadora';
     this.fecha_actual = new Date();
-    this.formGroupRegister = new FormGroup({});
+    // this.formGroupRegister = this.formBuilder.group({
+    //   firstName: ['', Validators.required],
+    //   inputPassword: ['', Validators.required],
+    //   repeatPassword: ['', Validators.required],
+    // });
+    this.firstName = new FormControl('', Validators.required)
+    this.lastName = new FormControl('', Validators.required)
+    this.inputEmail = new FormControl('', [
+      Validators.required,
+      Validators.pattern(this.getRegex('EMAIL'))])
+    this.inputPhoneNumber = new FormControl('', [
+      Validators.required,
+      Validators.pattern(this.getRegex('PHONE_NUMBER'))])
+    this.inputPassword = new FormControl('', Validators.required)
+    this.repeatPassword = new FormControl('', Validators.required)
+
+    this.formGroupRegister = new FormGroup({
+      firstName: this.firstName,
+      lastName: this.lastName,
+      inputEmail: this.inputEmail,
+      inputPhoneNumber: this.inputPhoneNumber,
+      inputPassword: this.inputPassword,
+      repeatPassword: this.repeatPassword,
+    });
+
     this.bool_check = true;
     this.model = '';
     this.numbers_calc = [
@@ -51,10 +87,21 @@ export class ContentViewComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   functionCalc() {
     this.result = this.calcService.evalOperation(this.model);
+  }
+
+  getRegex(type_pattern: string) {
+    switch (type_pattern) {
+      case 'EMAIL':
+        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      case 'PHONE_NUMBER':
+        return /^[0-9]*$/
+      default:
+        return null;
+    }
   }
 
   keyFindBtn(event: any) {
@@ -84,6 +131,14 @@ export class ContentViewComponent implements OnInit {
 
     let el = document.getElementById('inputCalc');
     console.log('el:', el);
+  }
+
+  sendFormData() {
+    console.log('this.formGroupRegister:', this.formGroupRegister)
+
+    // if (this.formGroupRegister.valid) {
+
+    // }
   }
 
   incializarVariables() {

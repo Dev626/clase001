@@ -77,16 +77,26 @@
               <input
                 type="text"
                 class="form-control form-control-user"
-                id="exampleFirstName"
-                placeholder="First Name"
+                formControlName="firstName"
+                placeholder="Nombres"
               />
+              <small
+                class="text-danger text-xs"
+                *ngIf="
+                  formGroupRegister.controls.firstName.invalid &&
+                  (formGroupRegister.controls.firstName.dirty ||
+                    formGroupRegister.controls.firstName.touched)
+                "
+              >
+                Dato Requerido
+              </small>
             </div>
             <div class="col-sm-6">
               <input
                 type="text"
                 class="form-control form-control-user"
-                id="exampleLastName"
-                placeholder="Last Name"
+                formControlName="lastName"
+                placeholder="Apellidos"
               />
             </div>
           </div>
@@ -94,38 +104,72 @@
             <input
               type="email"
               class="form-control form-control-user"
-              id="exampleInputEmail"
-              placeholder="Email Address"
+              formControlName="inputEmail"
+              placeholder="Dirección de correo electronico"
             />
+            <small
+              class="text-danger text-xs"
+              *ngIf="
+                formGroupRegister.controls.inputEmail.invalid &&
+                (formGroupRegister.controls.inputEmail.dirty ||
+                  formGroupRegister.controls.inputEmail.touched)
+              "
+            >
+              Dato Requerido
+            </small>
+            <small
+              class="text-danger text-xs"
+              *ngIf="inputEmail.errors?.pattern"
+            >
+              Formato de correo invalido
+            </small>
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control form-control-user"
+              formControlName="inputPhoneNumber"
+              placeholder="Número de teléfono"
+            />
+            <small
+              class="text-danger text-xs"
+              *ngIf="inputPhoneNumber.errors?.pattern"
+            >
+              Dato debe ser Numerico
+            </small>
           </div>
           <div class="form-group row">
             <div class="col-sm-6 mb-3 mb-sm-0">
               <input
                 type="password"
                 class="form-control form-control-user"
-                id="exampleInputPassword"
-                placeholder="Password"
+                formControlName="inputPassword"
+                placeholder="Clave"
               />
             </div>
             <div class="col-sm-6">
               <input
                 type="password"
                 class="form-control form-control-user"
-                id="exampleRepeatPassword"
-                placeholder="Repeat Password"
+                formControlName="repeatPassword"
+                placeholder="Repetir Clave"
               />
             </div>
           </div>
-          <a href="login.html" class="btn btn-primary btn-user btn-block">
-            Register Account
-          </a>
-          <hr />
-          <a href="index.html" class="btn btn-google btn-user btn-block">
+          <button
+            type="submit"
+            class="btn btn-primary btn-user btn-block"
+            [disabled]="formGroupRegister.invalid"
+            (click)="sendFormData()"
+          >
+            Registrar Cuenta
+          </button>
+          <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
             <i class="fab fa-google fa-fw"></i> Register with Google
           </a>
           <a href="index.html" class="btn btn-facebook btn-user btn-block">
             <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-          </a>
+          </a> -->
         </form>
         <!-- Formulario reactivo -->
       </div>
