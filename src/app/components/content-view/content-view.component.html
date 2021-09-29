@@ -1,26 +1,65 @@
-<!-- Nav Item -->
-<div class="p-3 text-center">
-  <ng-template ngFor let-item [ngForOf]="numbers_calc">
-    <!-- [textButton]="item.value" -->
-    <button-calc [classIn]="item.class" [itemIn]="item" (eventClick)="clickParent($event)"></button-calc>
-  </ng-template>
-  <hr class="sidebar-divider">
-  <div class="d-flex">
-    <button-calc [classIn]="'btn-secondary'" [itemIn]="{value: 'Result'}" (eventClick)="functionCalc()"></button-calc>
-    <input #inputCalc id="inputCalc" class="form-control" type="text" [(ngModel)]="model" (keyup.enter)="functionCalc()" (keyup)="keyFindBtn($event)">
-    <button-calc classIn="btn-secondary" [itemIn]="{value: 'Clear'}" (eventClick)="functionClearCalc()"></button-calc>
+<div class="card">
+  <div class="card-header text-center">
+    <h1>{{ titulo | uppercase }}</h1>
+    <h2>{{ fecha_actual | customdate }}</h2>
   </div>
-  <h1>{{result}}</h1>
+  <div class="card-body">
+    <div class="p-3 text-center">
+      <ng-template ngFor let-item [ngForOf]="numbers_calc">
+        <!-- [textButton]="item.value" -->
+        <button-calc
+          [classIn]="item.class"
+          [itemIn]="item"
+          (eventClick)="clickParent($event)"
+        ></button-calc>
+      </ng-template>
+      <hr class="sidebar-divider" />
+      <div class="d-flex">
+        <button-calc
+          [classIn]="'btn-secondary'"
+          [itemIn]="{ value: 'Result' }"
+          (eventClick)="functionCalc()"
+        ></button-calc>
+        <input
+          #inputCalc
+          id="inputCalc"
+          class="form-control"
+          type="text"
+          [(ngModel)]="model"
+          (keyup.enter)="functionCalc()"
+          (keyup)="keyFindBtn($event)"
+        />
+        <button-calc
+          classIn="btn-secondary"
+          [itemIn]="{ value: 'Clear' }"
+          (eventClick)="functionClearCalc()"
+        ></button-calc>
+      </div>
 
-  <button-calc classIn="btn-warning" [itemIn]="{value: 'PrintViewChild'}" (eventClick)="PrintViewChild(inputCalc)"></button-calc>
+      <button-calc
+        classIn="btn-warning"
+        [itemIn]="{ value: 'PrintViewChild' }"
+        (eventClick)="PrintViewChild(inputCalc)"
+      ></button-calc>
 
-  <ng-template [ngIf]="bool_check">
-  </ng-template>
-  <div class="d-block" *ngIf="model == 'clave'; else elseBlock">
-    <input type="text" [(ngModel)]="model">
-    <button class="btn btn-info mx-1" type="button" (click)="functionClearCalc()">Result</button>
-    <h1>{{model}}</h1>
+      <!-- <br />
+      variable numbers calc: {{ numbers_calc | json }} -->
+
+      <ng-template [ngIf]="bool_check"> </ng-template>
+      <div class="d-block" *ngIf="model == 'clave'; else elseBlock">
+        <input type="text" [(ngModel)]="model" />
+        <button
+          class="btn btn-info mx-1"
+          type="button"
+          (click)="functionClearCalc()"
+        >
+          Result
+        </button>
+        <h1>{{ model }}</h1>
+      </div>
+      <ng-template #elseBlock> </ng-template>
+    </div>
   </div>
-  <ng-template #elseBlock>
-  </ng-template>
 </div>
+
+<!-- Nav Item -->
