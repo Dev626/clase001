@@ -1,9 +1,9 @@
 import {
   Component,
-  ElementRef,
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { CalcService } from '@services/calc.service';
 
@@ -19,9 +19,13 @@ export class ContentViewComponent implements OnInit {
   numbers_calc: any[];
   result?: string;
   calcService: CalcService = new CalcService();
-  @ViewChild('inputCalc') inputCalc?: ElementRef<HTMLInputElement>;
+  @ViewChild('inputCalc', { static: true }) inputCalc?: any;
+  @ViewChild('inputCalcFalse', { static: false }) inputCalcFalse?: any;
+
+  formGroupRegister: FormGroup;
 
   constructor() {
+    this.formGroupRegister = new FormGroup({});
     this.bool_check = true;
     this.model = '';
     this.numbers_calc = [
@@ -69,9 +73,10 @@ export class ContentViewComponent implements OnInit {
       + (isNaN(itemIn.value) ? ' ' : '');
   }
 
-  PrintViewChild(element: any) {
+  printViewChild(element: any) {
     console.log('element:', element)
     console.log('this.inputCalc:', this.inputCalc)
+    console.log('this.inputCalcFalse:', this.inputCalcFalse)
     console.log('this.inputCalc:', this.inputCalc?.nativeElement)
 
     let el = document.getElementById('inputCalc');

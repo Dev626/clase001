@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AdsComponent } from './ads/ads.component';
@@ -22,7 +25,9 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
   imports: [
     // librerias adicionales (Material, NgBootstrap, )
     FormsModule,
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     MyComponent,
