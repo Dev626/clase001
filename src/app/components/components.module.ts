@@ -5,6 +5,8 @@ import {
 } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { CustomdatePipe } from '../pipes/customdate.pipe';
+import { UppercasePipe } from '../pipes/uppercase.pipe';
 import { AdsComponent } from './ads/ads.component';
 import { ButtonCalcComponent } from './button-calc/button-calc.component';
 import { ContentViewComponent } from './content-view/content-view.component';
@@ -44,7 +46,9 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
     AdsComponent,
     GoHomeComponent,
     GoTopComponent,
-    ButtonCalcComponent
+    ButtonCalcComponent,
+    UppercasePipe,
+    CustomdatePipe,
   ],
   exports: [
     MyComponent,
@@ -61,8 +65,7 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
     AdsComponent,
     GoHomeComponent,
     GoTopComponent,
-    ButtonCalcComponent
-  ]
+    ButtonCalcComponent,
+  ],
 })
-
-export class ComponentsModule { }
+export class ComponentsModule {}

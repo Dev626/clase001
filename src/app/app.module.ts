@@ -8,10 +8,13 @@ import {
   OtherComponentComponent,
 } from './other-component/other-component.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    OtherComponentComponent
+    OtherComponentComponent,
+    
   ],
   imports: [
     BrowserModule,
