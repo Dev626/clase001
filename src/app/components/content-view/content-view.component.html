@@ -173,6 +173,28 @@
         </form>
         <!-- Formulario reactivo -->
       </div>
+      <div class="card-footer">
+        <table class="table">
+          <thead>
+            <th>Id</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Clave</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let usuario of lista_usuarios">
+              <td>{{ usuario.usuario_id }}</td>
+              <td>{{ usuario.nombres }}</td>
+              <td>{{ usuario.apellidos }}</td>
+              <td>{{ usuario.correo }}</td>
+              <td>{{ usuario.nro_telefono }}</td>
+              <td>{{ usuario.clave }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

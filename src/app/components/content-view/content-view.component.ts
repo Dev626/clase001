@@ -1,8 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -11,13 +8,15 @@ import {
 } from '@angular/forms';
 
 import { CalcService } from '@services/calc.service';
+import { Usuario } from '@src/app/interfaces/usuario';
+import { UsuarioService } from '@src/app/services/usuario.service';
 
 @Component({
   selector: 'app-content-view',
   templateUrl: './content-view.component.html',
   styleUrls: ['./content-view.component.scss'],
 })
-export class ContentViewComponent implements OnInit {
+export class ContentViewComponent implements OnInit, OnDestroy {
   bool_check: boolean;
   model: string;
   numbers_calc: any[];
@@ -36,25 +35,34 @@ export class ContentViewComponent implements OnInit {
   inputPassword: FormControl;
   repeatPassword: FormControl;
 
+  //lista de usuarios
+  lista_usuarios: Usuario[];
+  sub_listar_usuario: any;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private usuarioService: UsuarioService
+  ) {
     this.titulo = 'Componente Calculadora';
     this.fecha_actual = new Date();
+    this.lista_usuarios = [];
     // this.formGroupRegister = this.formBuilder.group({
     //   firstName: ['', Validators.required],
     //   inputPassword: ['', Validators.required],
     //   repeatPassword: ['', Validators.required],
     // });
-    this.firstName = new FormControl('', Validators.required)
-    this.lastName = new FormControl('', Validators.required)
+    this.firstName = new FormControl('', Validators.required);
+    this.lastName = new FormControl('', Validators.required);
     this.inputEmail = new FormControl('', [
       Validators.required,
-      Validators.pattern(this.getRegex('EMAIL'))])
+      Validators.pattern(this.getRegex('EMAIL')),
+    ]);
     this.inputPhoneNumber = new FormControl('', [
       Validators.required,
-      Validators.pattern(this.getRegex('PHONE_NUMBER'))])
-    this.inputPassword = new FormControl('', Validators.required)
-    this.repeatPassword = new FormControl('', Validators.required)
+      Validators.pattern(this.getRegex('PHONE_NUMBER')),
+    ]);
+    this.inputPassword = new FormControl('', Validators.required);
+    this.repeatPassword = new FormControl('', Validators.required);
 
     this.formGroupRegister = new FormGroup({
       firstName: this.firstName,
@@ -87,7 +95,15 @@ export class ContentViewComponent implements OnInit {
     ];
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.listarUsuarios();
+  }
+
+  ngOnDestroy() {
+    if (this.sub_listar_usuario) {
+      this.sub_listar_usuario.unsubscribe();
+    }
+  }
 
   functionCalc() {
     this.result = this.calcService.evalOperation(this.model);
@@ -96,9 +112,9 @@ export class ContentViewComponent implements OnInit {
   getRegex(type_pattern: string) {
     switch (type_pattern) {
       case 'EMAIL':
-        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       case 'PHONE_NUMBER':
-        return /^[0-9]*$/
+        return /^[0-9]*$/;
       default:
         return null;
     }
@@ -124,21 +140,29 @@ export class ContentViewComponent implements OnInit {
   }
 
   printViewChild(element: any) {
-    console.log('element:', element)
-    console.log('this.inputCalc:', this.inputCalc)
-    console.log('this.inputCalcFalse:', this.inputCalcFalse)
-    console.log('this.inputCalc:', this.inputCalc?.nativeElement)
+    console.log('element:', element);
+    console.log('this.inputCalc:', this.inputCalc);
+    console.log('this.inputCalcFalse:', this.inputCalcFalse);
+    console.log('this.inputCalc:', this.inputCalc?.nativeElement);
 
     let el = document.getElementById('inputCalc');
     console.log('el:', el);
   }
 
   sendFormData() {
-    console.log('this.formGroupRegister:', this.formGroupRegister)
+    console.log('this.formGroupRegister:', this.formGroupRegister);
 
     // if (this.formGroupRegister.valid) {
 
     // }
+  }
+
+  listarUsuarios() {
+    this.sub_listar_usuario = this.usuarioService
+      .listarUsuarios()
+      .subscribe((usuarios) => {
+        this.lista_usuarios = usuarios;
+      });
   }
 
   incializarVariables() {

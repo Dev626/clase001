@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "usuariosapp-1ce01": {
+      "hosting": {
+        "clase001": [
+          "usuariosapp-1ce01"
+        ]
+      }
+    }
+  }
+}
