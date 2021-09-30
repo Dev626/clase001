@@ -32,6 +32,8 @@ export class UsuarioService {
   }
 
   eliminarUsuario(usuario) {
+    console.log('usuario:', usuario)
+    console.log('this.collection_usuario  usuario.usuario_id:', this.collection_usuario + '/' + usuario.usuario_id)
     return this.angularFireStore.doc(this.collection_usuario + '/' + usuario.usuario_id).delete();
   }
 }

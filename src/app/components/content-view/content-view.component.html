@@ -71,21 +71,26 @@
         <div class="card-header">Formulario Reactivo</div>
         <div class="card-body">
           <!-- Formulario reactivo -->
-          <form role="form" [formGroup]="formGroupRegister" class="user">
+          <form
+            autocomplete="off"
+            role="form"
+            [formGroup]="formGroupActions"
+            class="user"
+          >
             <div class="form-group row">
               <div class="col-sm-6 mb-3 mb-sm-0">
                 <input
                   type="text"
                   class="form-control form-control-user"
-                  formControlName="firstName"
+                  formControlName="nombres"
                   placeholder="Nombres"
                 />
                 <small
                   class="text-danger text-xs"
                   *ngIf="
-                    formGroupRegister.controls.firstName.invalid &&
-                    (formGroupRegister.controls.firstName.dirty ||
-                      formGroupRegister.controls.firstName.touched)
+                    formGroupActions.controls.nombres.invalid &&
+                    (formGroupActions.controls.nombres.dirty ||
+                      formGroupActions.controls.nombres.touched)
                   "
                 >
                   Dato Requerido
@@ -95,7 +100,7 @@
                 <input
                   type="text"
                   class="form-control form-control-user"
-                  formControlName="lastName"
+                  formControlName="apellidos"
                   placeholder="Apellidos"
                 />
               </div>
@@ -104,23 +109,20 @@
               <input
                 type="email"
                 class="form-control form-control-user"
-                formControlName="inputEmail"
+                formControlName="correo"
                 placeholder="Dirección de correo electronico"
               />
               <small
                 class="text-danger text-xs"
                 *ngIf="
-                  formGroupRegister.controls.inputEmail.invalid &&
-                  (formGroupRegister.controls.inputEmail.dirty ||
-                    formGroupRegister.controls.inputEmail.touched)
+                  formGroupActions.controls.correo.invalid &&
+                  (formGroupActions.controls.correo.dirty ||
+                    formGroupActions.controls.correo.touched)
                 "
               >
                 Dato Requerido
               </small>
-              <small
-                class="text-danger text-xs"
-                *ngIf="inputEmail.errors?.pattern"
-              >
+              <small class="text-danger text-xs" *ngIf="correo.errors?.pattern">
                 Formato de correo invalido
               </small>
             </div>
@@ -128,12 +130,12 @@
               <input
                 type="text"
                 class="form-control form-control-user"
-                formControlName="inputPhoneNumber"
+                formControlName="nro_telefono"
                 placeholder="Número de teléfono"
               />
               <small
                 class="text-danger text-xs"
-                *ngIf="inputPhoneNumber.errors?.pattern"
+                *ngIf="nro_telefono.errors?.pattern"
               >
                 Dato debe ser Numerico
               </small>
@@ -143,7 +145,7 @@
                 <input
                   type="password"
                   class="form-control form-control-user"
-                  formControlName="inputPassword"
+                  formControlName="clave"
                   placeholder="Clave"
                 />
               </div>
@@ -157,19 +159,30 @@
               </div>
             </div>
             <button
+              *ngIf="usuario.usuario_id"
+              class="btn btn-info btn-user btn-block"
+              type="button"
+              [disabled]="formChanged "
+              (click)="initialEditForm()"
+            >
+              Restablecer
+            </button>
+            <button
               type="submit"
               class="btn btn-primary btn-user btn-block"
-              [disabled]="formGroupRegister.invalid"
+              [disabled]="formChanged || formGroupActions.invalid"
               (click)="sendFormData()"
             >
-              {{(form_edit ? "Editar" : "Registrar" ) + " Usuario" }}
+              {{ (usuario.usuario_id ? "Editar" : "Registrar") + " Usuario" }}
             </button>
-            <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
-              <i class="fab fa-google fa-fw"></i> Register with Google
-            </a>
-            <a href="index.html" class="btn btn-facebook btn-user btn-block">
-              <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-            </a> -->
+            <button
+              *ngIf="usuario.usuario_id"
+              class="btn btn-danger btn-user btn-block"
+              type="button"
+              (click)="cLeanForm()"
+            >
+              Cancelar
+            </button>
           </form>
           <!-- Formulario reactivo -->
         </div>
@@ -182,24 +195,24 @@
           <table class="table">
             <thead>
               <th></th>
-              <!-- <th>Id</th> -->
+              <th></th>
               <th>Nombres</th>
               <th>Apellidos</th>
               <th>Correo</th>
               <th>Telefono</th>
-              <!-- <th>Clave</th> -->
             </thead>
             <tbody>
               <tr *ngFor="let usuario of lista_usuarios">
                 <td>
                   <button (click)="mostrarUsuario(usuario)">E</button>
                 </td>
-                <!-- <td>{{ usuario.usuario_id }}</td> -->
+                <td>
+                  <button (click)="eliminarUsuario(usuario)">D</button>
+                </td>
                 <td>{{ usuario.nombres }}</td>
                 <td>{{ usuario.apellidos }}</td>
                 <td>{{ usuario.correo }}</td>
                 <td>{{ usuario.nro_telefono }}</td>
-                <!-- <td>{{ usuario.clave }}</td> -->
               </tr>
             </tbody>
           </table>

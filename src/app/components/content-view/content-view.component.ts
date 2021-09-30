@@ -11,6 +11,8 @@ import {
   Validators,
 } from '@angular/forms';
 
+import * as _ from 'lodash';
+
 import { CalcService } from '@services/calc.service';
 import { Usuario } from '@src/app/interfaces/usuario';
 import { UsuarioService } from '@src/app/services/usuario.service';
@@ -31,19 +33,19 @@ export class ContentViewComponent implements OnInit, OnDestroy {
   @ViewChild('inputCalc', { static: true }) inputCalc?: any;
   @ViewChild('inputCalcFalse', { static: false }) inputCalcFalse?: any;
 
-  formGroupRegister: FormGroup;
-  firstName: FormControl;
-  lastName: FormControl;
-  inputEmail: FormControl;
-  inputPhoneNumber: FormControl;
-  inputPassword: FormControl;
+  formGroupActions: FormGroup;
+  formInitialState: any;
+  nombres: FormControl;
+  apellidos: FormControl;
+  correo: FormControl;
+  nro_telefono: FormControl;
+  clave: FormControl;
   repeatPassword: FormControl;
 
   //lista de usuarios
   lista_usuarios: Usuario[];
   usuario: Usuario;
   usuario_original: Usuario;
-  form_edit: boolean;
   sub_listar_usuario: any;
 
   constructor(
@@ -55,31 +57,32 @@ export class ContentViewComponent implements OnInit, OnDestroy {
     this.lista_usuarios = [];
     this.usuario = {};
     this.usuario_original = {};
-    this.form_edit = false;
-    // this.formGroupRegister = this.formBuilder.group({
-    //   firstName: ['', Validators.required],
-    //   inputPassword: ['', Validators.required],
+    // this.formGroupActions = this.formBuilder.group({
+    //   nombres: ['', Validators.required],
+    //   clave: ['', Validators.required],
     //   repeatPassword: ['', Validators.required],
     // });
-    this.firstName = new FormControl('', Validators.required);
-    this.lastName = new FormControl('', Validators.required);
-    this.inputEmail = new FormControl('', [
+    this.nombres = new FormControl('', Validators.required);
+    this.apellidos = new FormControl('', Validators.required);
+    this.correo = new FormControl('', [
       Validators.required,
       Validators.pattern(this.getRegex('EMAIL')),
     ]);
-    this.inputPhoneNumber = new FormControl('', [
+    this.nro_telefono = new FormControl('', [
       Validators.required,
       Validators.pattern(this.getRegex('PHONE_NUMBER')),
     ]);
-    this.inputPassword = new FormControl('', Validators.required);
-    this.repeatPassword = new FormControl('', Validators.required);
+    this.clave = new FormControl('');
+    // , Validators.required
+    this.repeatPassword = new FormControl('');
+    // , Validators.required
 
-    this.formGroupRegister = new FormGroup({
-      firstName: this.firstName,
-      lastName: this.lastName,
-      inputEmail: this.inputEmail,
-      inputPhoneNumber: this.inputPhoneNumber,
-      inputPassword: this.inputPassword,
+    this.formGroupActions = new FormGroup({
+      nombres: this.nombres,
+      apellidos: this.apellidos,
+      correo: this.correo,
+      nro_telefono: this.nro_telefono,
+      clave: this.clave,
       repeatPassword: this.repeatPassword,
     });
 
@@ -159,26 +162,51 @@ export class ContentViewComponent implements OnInit, OnDestroy {
     console.log('el:', el);
   }
 
+  cLeanForm() {
+    this.usuario = {};
+    this.formGroupActions.setValue({
+      nombres: '',
+      apellidos: '',
+      correo: '',
+      nro_telefono: '',
+      clave: '',
+      repeatPassword: '',
+    });
+  }
+
+  initialEditForm() {
+    // this.usuario_original.repeatPassword
+    this.formGroupActions.setValue({
+      nombres: this.usuario_original?.nombres || null,
+      apellidos: this.usuario_original?.apellidos || null,
+      correo: this.usuario_original?.correo || null,
+      nro_telefono: this.usuario_original?.nro_telefono || null,
+      clave: null,
+      repeatPassword: null,
+    });
+  }
+
   sendFormData() {
-    console.log('this.formGroupRegister:', this.formGroupRegister);
-    if (this.formGroupRegister.valid) {
-      this.usuario.nombres = this.formGroupRegister.get('firstName').value
-      this.usuario.apellidos = this.formGroupRegister.get('lastName').value
-      this.usuario.correo = this.formGroupRegister.get('inputEmail').value
-      this.usuario.nro_telefono = this.formGroupRegister.get('inputPhoneNumber').value
-      this.usuario.clave = this.formGroupRegister.get('inputPassword').value
-      let clave_repeat = this.formGroupRegister.get('repeatPassword').value
+    console.log('this.formGroupActions:', this.formGroupActions);
+    if (this.formGroupActions.valid) {
+      this.usuario.nombres = this.formGroupActions.get('nombres').value
+      this.usuario.apellidos = this.formGroupActions.get('apellidos').value
+      this.usuario.correo = this.formGroupActions.get('correo').value
+      this.usuario.nro_telefono = this.formGroupActions.get('nro_telefono').value
+      this.usuario.clave = this.formGroupActions.get('clave').value
+      let clave_repeat = this.formGroupActions.get('repeatPassword').value
+
       if (this.usuario.clave == clave_repeat) {
-        this.registrarUsuario();
+        if (this.usuario.usuario_id) {
+          this.usuarioService.actualizarUsuario(this.usuario)
+        } else {
+          this.usuarioService.registrarUsuario(this.usuario)
+        }
+        this.cLeanForm();
       } else {
         alert('claves no coinciden');
       }
     }
-  }
-
-  registrarUsuario() {
-    console.log('this.usuario:', this.usuario)
-    this.usuarioService.registrarUsuario(this.usuario)
   }
 
   listarUsuarios() {
@@ -190,18 +218,35 @@ export class ContentViewComponent implements OnInit, OnDestroy {
   }
 
   mostrarUsuario(usuario: Usuario) {
+    // this.form_edit = true;
     this.usuario_original = { ...usuario };
-
     this.usuario = usuario;
-    this.formGroupRegister.get('firstName').setValue(this.usuario.nombres);
-    this.formGroupRegister.get('lastName').setValue(this.usuario.apellidos);
-    this.formGroupRegister.get('inputEmail').setValue(this.usuario.correo);
-    this.formGroupRegister.get('inputPhoneNumber').setValue(this.usuario.nro_telefono);
-    // this.formGroupRegister.value(this.usuario);
+    // this.formGroupActions.get('nombres').setValue(this.usuario.nombres);
+    console.log('this.usuario:', this.usuario)
+    // this.formGroupActions.setValue(this.usuario);
+    this.formGroupActions.setValue({
+      nombres: this.usuario?.nombres || null,
+      apellidos: this.usuario?.apellidos || null,
+      correo: this.usuario?.correo || null,
+      nro_telefono: this.usuario?.nro_telefono || null,
+      clave: null,
+      repeatPassword: null,
+    });
 
-    // let usuario_clone: Usuario = JSON.parse(JSON.stringify(this.usuario));
-    // let usuario_clone_b: Usuario = { ...usuario,  };
+    this.formInitialState = this.formCurrentState;
+  }
 
+  get formCurrentState() {
+    return { ...this.formGroupActions.value }
+  }
+
+  get formChanged() {
+    return _.isEqual(this.formInitialState, this.formCurrentState)
+  }
+
+  eliminarUsuario(usuario) {
+    var respuesta = confirm('Seguro que desea eliminar este registro?');
+    if (respuesta) this.usuarioService.eliminarUsuario(usuario)
   }
 
   incializarVariables() {
