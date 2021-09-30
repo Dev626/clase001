@@ -2,8 +2,7 @@
 <div class="p-3">
   <div class="card">
     <div class="card-header">
-      <h1>{{ titulo | uppercase }}</h1>
-      <h2>{{ fecha_actual | customdate }}</h2>
+      <h3>{{ titulo | uppercase }} {{ fecha_actual | customdate }}</h3>
     </div>
     <div class="card-body">
       <div class="p-3 text-center">
@@ -66,137 +65,147 @@
     </div>
   </div>
   <hr class="sidebar-divider" />
-  <div class="col-lg-5">
-    <div class="card text-center">
-      <div class="card-header">Formulario Reactivo</div>
-      <div class="card-body">
-        <!-- Formulario reactivo -->
-        <form role="form" [formGroup]="formGroupRegister" class="user">
-          <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
+  <div class="row">
+    <div class="col-lg-5">
+      <div class="card text-center">
+        <div class="card-header">Formulario Reactivo</div>
+        <div class="card-body">
+          <!-- Formulario reactivo -->
+          <form role="form" [formGroup]="formGroupRegister" class="user">
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input
+                  type="text"
+                  class="form-control form-control-user"
+                  formControlName="firstName"
+                  placeholder="Nombres"
+                />
+                <small
+                  class="text-danger text-xs"
+                  *ngIf="
+                    formGroupRegister.controls.firstName.invalid &&
+                    (formGroupRegister.controls.firstName.dirty ||
+                      formGroupRegister.controls.firstName.touched)
+                  "
+                >
+                  Dato Requerido
+                </small>
+              </div>
+              <div class="col-sm-6">
+                <input
+                  type="text"
+                  class="form-control form-control-user"
+                  formControlName="lastName"
+                  placeholder="Apellidos"
+                />
+              </div>
+            </div>
+            <div class="form-group">
               <input
-                type="text"
+                type="email"
                 class="form-control form-control-user"
-                formControlName="firstName"
-                placeholder="Nombres"
+                formControlName="inputEmail"
+                placeholder="Dirección de correo electronico"
               />
               <small
                 class="text-danger text-xs"
                 *ngIf="
-                  formGroupRegister.controls.firstName.invalid &&
-                  (formGroupRegister.controls.firstName.dirty ||
-                    formGroupRegister.controls.firstName.touched)
+                  formGroupRegister.controls.inputEmail.invalid &&
+                  (formGroupRegister.controls.inputEmail.dirty ||
+                    formGroupRegister.controls.inputEmail.touched)
                 "
               >
                 Dato Requerido
               </small>
+              <small
+                class="text-danger text-xs"
+                *ngIf="inputEmail.errors?.pattern"
+              >
+                Formato de correo invalido
+              </small>
             </div>
-            <div class="col-sm-6">
+            <div class="form-group">
               <input
                 type="text"
                 class="form-control form-control-user"
-                formControlName="lastName"
-                placeholder="Apellidos"
+                formControlName="inputPhoneNumber"
+                placeholder="Número de teléfono"
               />
+              <small
+                class="text-danger text-xs"
+                *ngIf="inputPhoneNumber.errors?.pattern"
+              >
+                Dato debe ser Numerico
+              </small>
             </div>
-          </div>
-          <div class="form-group">
-            <input
-              type="email"
-              class="form-control form-control-user"
-              formControlName="inputEmail"
-              placeholder="Dirección de correo electronico"
-            />
-            <small
-              class="text-danger text-xs"
-              *ngIf="
-                formGroupRegister.controls.inputEmail.invalid &&
-                (formGroupRegister.controls.inputEmail.dirty ||
-                  formGroupRegister.controls.inputEmail.touched)
-              "
-            >
-              Dato Requerido
-            </small>
-            <small
-              class="text-danger text-xs"
-              *ngIf="inputEmail.errors?.pattern"
-            >
-              Formato de correo invalido
-            </small>
-          </div>
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control form-control-user"
-              formControlName="inputPhoneNumber"
-              placeholder="Número de teléfono"
-            />
-            <small
-              class="text-danger text-xs"
-              *ngIf="inputPhoneNumber.errors?.pattern"
-            >
-              Dato debe ser Numerico
-            </small>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-              <input
-                type="password"
-                class="form-control form-control-user"
-                formControlName="inputPassword"
-                placeholder="Clave"
-              />
+            <div class="form-group row">
+              <div class="col-sm-6 mb-3 mb-sm-0">
+                <input
+                  type="password"
+                  class="form-control form-control-user"
+                  formControlName="inputPassword"
+                  placeholder="Clave"
+                />
+              </div>
+              <div class="col-sm-6">
+                <input
+                  type="password"
+                  class="form-control form-control-user"
+                  formControlName="repeatPassword"
+                  placeholder="Repetir Clave"
+                />
+              </div>
             </div>
-            <div class="col-sm-6">
-              <input
-                type="password"
-                class="form-control form-control-user"
-                formControlName="repeatPassword"
-                placeholder="Repetir Clave"
-              />
-            </div>
-          </div>
-          <button
-            type="submit"
-            class="btn btn-primary btn-user btn-block"
-            [disabled]="formGroupRegister.invalid"
-            (click)="sendFormData()"
-          >
-            Registrar Cuenta
-          </button>
-          <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
-            <i class="fab fa-google fa-fw"></i> Register with Google
-          </a>
-          <a href="index.html" class="btn btn-facebook btn-user btn-block">
-            <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
-          </a> -->
-        </form>
-        <!-- Formulario reactivo -->
+            <button
+              type="submit"
+              class="btn btn-primary btn-user btn-block"
+              [disabled]="formGroupRegister.invalid"
+              (click)="sendFormData()"
+            >
+              {{(form_edit ? "Editar" : "Registrar" ) + " Usuario" }}
+            </button>
+            <!-- <a href="index.html" class="btn btn-google btn-user btn-block">
+              <i class="fab fa-google fa-fw"></i> Register with Google
+            </a>
+            <a href="index.html" class="btn btn-facebook btn-user btn-block">
+              <i class="fab fa-facebook-f fa-fw"></i> Register with Facebook
+            </a> -->
+          </form>
+          <!-- Formulario reactivo -->
+        </div>
       </div>
-      <div class="card-footer">
-        <table class="table">
-          <thead>
-            <th>Id</th>
-            <th>Nombres</th>
-            <th>Apellidos</th>
-            <th>Correo</th>
-            <th>Telefono</th>
-            <th>Clave</th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let usuario of lista_usuarios">
-              <td>{{ usuario.usuario_id }}</td>
-              <td>{{ usuario.nombres }}</td>
-              <td>{{ usuario.apellidos }}</td>
-              <td>{{ usuario.correo }}</td>
-              <td>{{ usuario.nro_telefono }}</td>
-              <td>{{ usuario.clave }}</td>
-            </tr>
-          </tbody>
-        </table>
+    </div>
+    <div class="col-lg-7">
+      <div class="card text-center">
+        <div class="card-header">Listado</div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+              <th></th>
+              <!-- <th>Id</th> -->
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Correo</th>
+              <th>Telefono</th>
+              <!-- <th>Clave</th> -->
+            </thead>
+            <tbody>
+              <tr *ngFor="let usuario of lista_usuarios">
+                <td>
+                  <button (click)="mostrarUsuario(usuario)">E</button>
+                </td>
+                <!-- <td>{{ usuario.usuario_id }}</td> -->
+                <td>{{ usuario.nombres }}</td>
+                <td>{{ usuario.apellidos }}</td>
+                <td>{{ usuario.correo }}</td>
+                <td>{{ usuario.nro_telefono }}</td>
+                <!-- <td>{{ usuario.clave }}</td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
+  <!-- Nav Item -->
 </div>
-
-<!-- Nav Item -->

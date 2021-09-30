@@ -1,5 +1,9 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -37,6 +41,9 @@ export class ContentViewComponent implements OnInit, OnDestroy {
 
   //lista de usuarios
   lista_usuarios: Usuario[];
+  usuario: Usuario;
+  usuario_original: Usuario;
+  form_edit: boolean;
   sub_listar_usuario: any;
 
   constructor(
@@ -46,6 +53,9 @@ export class ContentViewComponent implements OnInit, OnDestroy {
     this.titulo = 'Componente Calculadora';
     this.fecha_actual = new Date();
     this.lista_usuarios = [];
+    this.usuario = {};
+    this.usuario_original = {};
+    this.form_edit = false;
     // this.formGroupRegister = this.formBuilder.group({
     //   firstName: ['', Validators.required],
     //   inputPassword: ['', Validators.required],
@@ -151,10 +161,24 @@ export class ContentViewComponent implements OnInit, OnDestroy {
 
   sendFormData() {
     console.log('this.formGroupRegister:', this.formGroupRegister);
+    if (this.formGroupRegister.valid) {
+      this.usuario.nombres = this.formGroupRegister.get('firstName').value
+      this.usuario.apellidos = this.formGroupRegister.get('lastName').value
+      this.usuario.correo = this.formGroupRegister.get('inputEmail').value
+      this.usuario.nro_telefono = this.formGroupRegister.get('inputPhoneNumber').value
+      this.usuario.clave = this.formGroupRegister.get('inputPassword').value
+      let clave_repeat = this.formGroupRegister.get('repeatPassword').value
+      if (this.usuario.clave == clave_repeat) {
+        this.registrarUsuario();
+      } else {
+        alert('claves no coinciden');
+      }
+    }
+  }
 
-    // if (this.formGroupRegister.valid) {
-
-    // }
+  registrarUsuario() {
+    console.log('this.usuario:', this.usuario)
+    this.usuarioService.registrarUsuario(this.usuario)
   }
 
   listarUsuarios() {
@@ -163,6 +187,21 @@ export class ContentViewComponent implements OnInit, OnDestroy {
       .subscribe((usuarios) => {
         this.lista_usuarios = usuarios;
       });
+  }
+
+  mostrarUsuario(usuario: Usuario) {
+    this.usuario_original = { ...usuario };
+
+    this.usuario = usuario;
+    this.formGroupRegister.get('firstName').setValue(this.usuario.nombres);
+    this.formGroupRegister.get('lastName').setValue(this.usuario.apellidos);
+    this.formGroupRegister.get('inputEmail').setValue(this.usuario.correo);
+    this.formGroupRegister.get('inputPhoneNumber').setValue(this.usuario.nro_telefono);
+    // this.formGroupRegister.value(this.usuario);
+
+    // let usuario_clone: Usuario = JSON.parse(JSON.stringify(this.usuario));
+    // let usuario_clone_b: Usuario = { ...usuario,  };
+
   }
 
   incializarVariables() {
