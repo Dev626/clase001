@@ -1,34 +1,40 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul
+  class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  id="accordionSidebar"
+>
   <!-- Sidebar - Brand -->
   <app-go-home></app-go-home>
   <!-- Divider -->
-  <hr class="sidebar-divider my-0">
+  <hr class="sidebar-divider my-0" />
   <!-- Menu -->
   <!-- https://angular.io/api/common/NgForOf -->
   <!-- class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" -->
   <div *ngFor="let section of menu; index as iHead; first as isFirstHead">
-    <!-- Header -->
     <div class="sidebar-heading">
       {{ section.header }}
     </div>
-    <!-- Nav Item -->
-    <ng-template ngFor let-item [ngForOf]="section.list_items" let-iItem="index" let-isFirstItem="first">
-      <!-- [ngClass]="{'active' : item.default}" -->
-      <!-- [ngClass]="item.default ? 'active' : ''" -->
-      <!-- [ngClass]="item.link == 'index.html' ? 'active' : '''" -->
-      <li class="nav-item" [ngClass]="{'active' : item.default}">
-        <!-- <div *ngIf="isFirstHead && isFirstItem">{{item | json}}</div> -->
-        <a class="nav-link" href="{{ item.link }}">
+    <ng-template
+      ngFor
+      let-item
+      [ngForOf]="section.list_items"
+      let-iItem="index"
+      let-isFirstItem="first"
+    >
+      <li class="nav-item" [ngClass]="{ active: item.default }">
+        <a class="nav-link" (click)="navigateTo(item.link)">
+          <!-- href="{{ item.link }}" -->
           <i class="{{ item.icon }}"></i>
           <span>{{ item.name }}</span>
         </a>
       </li>
     </ng-template>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+    <hr class="sidebar-divider" />
   </div>
+
+  <!-- [ngClass]="{'active' : item.default}" -->
+  <!-- [ngClass]="item.default ? 'active' : ''" -->
+  <!-- [ngClass]="item.link == 'index.html' ? 'active' : '''" -->
 
   <!-- <li class="nav-item active">
     <a class="nav-link" href="index.html">
@@ -120,5 +126,4 @@
   </div> -->
 
   <app-ads></app-ads>
-
 </ul>

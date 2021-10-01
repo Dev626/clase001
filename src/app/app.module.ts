@@ -22,7 +22,7 @@ import {
     AngularFirestoreModule,
     BrowserModule,
     AppRoutingModule,
-    ComponentsModule,
+    ComponentsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

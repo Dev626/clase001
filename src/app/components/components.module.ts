@@ -49,6 +49,7 @@ import { UserActionsComponent } from './user-actions/user-actions.component';
     ButtonCalcComponent,
     UppercasePipe,
     CustomdatePipe,
+
   ],
   exports: [
     MyComponent,
