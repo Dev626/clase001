@@ -1,65 +1,39 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-
-  menu: Array<any>
+  menu: Array<any>;
 
   constructor(private router: Router) {
-    this.menu = [{
-      "list_items": [{
-        "name": "Dashboard",
-        "icon": "fas fa-fw fa-tachometer-alt",
-        "link": "/home",
-        "default": true
-      }]
-    }, {
-      "header": "Interface",
-      "list_items": [{
-        "name": "Components",
-        "icon": "fas fa-fw fa-cog",
-        "link": "/topbar",
-        "default": false
-      }, {
-        "name": "Utilities",
-        "icon": "fas fa-fw fa-wrench",
-        "link": "",
-        "default": false
-      }]
-    }, {
-      "header": "Addons",
-      "list_items": [{
-        "name": "Pages",
-        "icon": "fas fa-fw fa-folder",
-        "link": "",
-        "default": false
-      }, {
-        "name": "Charts",
-        "icon": "fas fa-fw fa-chart-area",
-        "link": "",
-        "default": false
-      }, {
-        "name": "Tables",
-        "icon": "fas fa-fw fa-table",
-        "link": "",
-        "default": false
-      }]
-    }];
+    this.menu = [
+      {
+        header: 'Components',
+        list_items: [
+          {
+            name: 'Usuarios',
+            icon: 'fa fa-user',
+            link: '/home',
+            default: false,
+          },
+          {
+            name: 'Calculadora',
+            icon: 'fa fa-calculator',
+            link: '/calculadora',
+            default: false,
+          },
+        ],
+      },
+    ];
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   navigateTo(link) {
     this.router.navigate([link]);
   }
-
 }

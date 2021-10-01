@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
@@ -11,6 +6,7 @@ import * as _ from 'lodash';
 import { CalcService } from '@services/calc.service';
 import { Usuario } from '@src/app/interfaces/usuario';
 import { UsuarioService } from '@src/app/services/usuario.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-content-view',
@@ -36,7 +32,8 @@ export class ContentViewComponent implements OnInit, OnDestroy {
 
   constructor(
     private usuarioService: UsuarioService,
-    private router: Router
+    private router: Router,
+    private ngbModal: NgbModal
   ) {
     this.incializarVariables();
   }
@@ -46,24 +43,6 @@ export class ContentViewComponent implements OnInit, OnDestroy {
     this.fecha_actual = new Date();
     this.bool_check = true;
     this.model = '';
-    this.numbers_calc = [
-      { value: '-', text: '' },
-      { value: '+', text: '' },
-      { value: '*', text: '' },
-      { value: '/', text: '' },
-      { value: '(', text: '' },
-      { value: 0, text: 'zero' },
-      { value: 1, text: 'one' },
-      { value: 2, text: 'two' },
-      { value: 3, text: 'three' },
-      { value: 4, text: 'four' },
-      { value: 5, text: 'five' },
-      { value: 6, text: 'six' },
-      { value: 7, text: 'seven' },
-      { value: 8, text: 'eight' },
-      { value: 9, text: 'nine' },
-      { value: ')', text: '' },
-    ];
   }
 
   ngOnInit(): void {
@@ -81,6 +60,7 @@ export class ContentViewComponent implements OnInit, OnDestroy {
       .listarUsuarios()
       .subscribe((usuarios) => {
         this.lista_usuarios = usuarios;
+        console.log('this.lista_usuarios', this.lista_usuarios);
       });
   }
 
@@ -126,5 +106,30 @@ export class ContentViewComponent implements OnInit, OnDestroy {
     delete usuario.clave;
     localStorage.setItem('usuario', JSON.stringify(usuario));
     this.router.navigate(['/home/user/' + usuario.usuario_id]);
+  }
+
+  eliminarUsuario(usuario_id) {
+    this.usuarioService
+      .eliminarUsuario(usuario_id)
+      .then(() => {
+        alert('Usuario Eliminado');
+      })
+      .catch((error) => {
+        alert('ERROR: ' + error);
+      });
+  }
+
+  mostrarModalNuevoUsuario(modalRegistrarUsuario) {
+    this.ngbModal
+      .open(modalRegistrarUsuario, {
+        centered: true,
+        size: 'lg',
+        scrollable: true,
+        backdrop: 'static',
+      })
+      .result.then(
+        (result) => {},
+        (reason) => {}
+      );
   }
 }

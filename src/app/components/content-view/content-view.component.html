@@ -1,112 +1,77 @@
-<!-- Nav Item -->
-<div class="p-3">
-  <div class="card">
-    <div class="card-header">
-      <h3>{{ titulo | uppercase }} {{ fecha_actual | customdate }}</h3>
+<div class="card text-center">
+  <div class="card-header">
+    <h2>Lista de usuarios</h2>
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-primary" (click)="registrarUsuario()">
+        Routing Nuevo Usuario <i class="fa fa-plus mr-1"></i>
+      </button>
+      <button
+        class="btn btn-primary"
+        (click)="mostrarModalNuevoUsuario(modalRegistrarUsuario)"
+      >
+        Modal Nuevo Usuario <i class="fa fa-plus ml-1"></i>
+      </button>
     </div>
-    <div class="card-body">
-      <div class="p-3 text-center">
-        <ng-template ngFor let-item [ngForOf]="numbers_calc">
-          <!-- [textButton]="item.value" -->
-          <button-calc
-            [classIn]="item.class"
-            [itemIn]="item"
-            (eventClick)="clickParent($event)"
-          ></button-calc>
-        </ng-template>
-        <hr class="sidebar-divider" />
-        <div class="d-flex">
-          <button-calc
-            [classIn]="'btn-secondary'"
-            [itemIn]="{ value: 'Result' }"
-            (eventClick)="functionCalc()"
-          ></button-calc>
-          <input
-            #inputCalc
-            id="inputCalc"
-            class="form-control"
-            type="text"
-            [(ngModel)]="model"
-            (keyup.enter)="functionCalc()"
-            (keyup)="keyFindBtn($event)"
-          />
-          <button-calc
-            classIn="btn-secondary"
-            [itemIn]="{ value: 'Clear' }"
-            (eventClick)="functionClearCalc()"
-          ></button-calc>
-        </div>
-        <h1>{{ result }}</h1>
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead>
+        <th><i class="fa fa-pencil-square-o"></i></th>
+        <th><i class="fa fa-trash"></i></th>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Correo</th>
+        <th>Telefono</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of lista_usuarios">
+          <td>
+            <button
+              class="btn btn-success"
+              (click)="mostrarUsuario(usuario)"
+              title="Editar"
+            >
+              <i class="fa fa-pencil-square-o"></i>
+            </button>
+          </td>
+          <td>
+            <button
+              class="btn btn-danger"
+              (click)="eliminarUsuario(usuario.usuario_id)"
+              title="Editar"
+            >
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
 
-        <button-calc
-          classIn="btn-warning"
-          [itemIn]="{ value: 'PrintViewChild' }"
-          (eventClick)="printViewChild(inputCalc)"
-        >
-        </button-calc>
-        <!-- <hr class="sidebar-divider" /> -->
-        <!-- <ng-template [ngIf]="bool_check"> -->
-        <!-- </ng-template> -->
-        <!-- *ngIf="model == 'clave'; else elseBlock" -->
-        <!-- <div class="d-block">
-          <input type="text" [(ngModel)]="model" />
-          <button
-            class="btn btn-info mx-1"
-            type="button"
-            (click)="functionClearCalc()"
-          >
-            Result
-          </button>
-          <h1>{{ model }}</h1>
-        </div> -->
-        <!-- <ng-template #elseBlock> </ng-template> -->
-        <!-- </div> -->
-      </div>
-    </div>
+          <td>{{ usuario.nombres }}</td>
+          <td>{{ usuario.apellidos }}</td>
+          <td>{{ usuario.correo }}</td>
+          <td>{{ usuario.nro_telefono }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <hr class="sidebar-divider" />
-  <div class="row">
-    <!-- <div class="col-lg-5">
-      <div class="card text-center">
-        <div class="card-header">Formulario Reactivo</div>
-        <div class="card-body">
-        </div>
-      </div>
-    </div> -->
-    <div class="col-lg-12">
-      <div class="card text-center">
-        <div class="card-header">
-          Listado
-          <button (click)="registrarUsuario()">R</button>
-        </div>
-        <div class="card-body">
-          <table class="table">
-            <thead>
-              <th></th>
-              <th></th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
-              <th>Correo</th>
-              <th>Telefono</th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let usuario of lista_usuarios">
-                <td>
-                  <button (click)="mostrarUsuario(usuario)">E</button>
-                </td>
-                <td>
-                  <!-- <button (click)="eliminarUsuario(usuario)">D</button> -->
-                </td>
-                <td>{{ usuario.nombres }}</td>
-                <td>{{ usuario.apellidos }}</td>
-                <td>{{ usuario.correo }}</td>
-                <td>{{ usuario.nro_telefono }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Nav Item -->
 </div>
+
+<ng-template #modalRegistrarUsuario let-c="close" let-d="dismiss">
+  <div class="modal-header d-flex align-items-center">
+    <span class="h5 m-0"><i class="fa fa-filter mr-1"></i>Modal de Imagen</span>
+    <button class="close d-flex text-dark m-0 p-0" (click)="d('Cross click')">
+      <i class="fa fa-times"></i>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <my-component></my-component>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-secondary btn-lg"
+      (click)="c('Close')"
+    >
+      Cerrar
+    </button>
+  </div>
+</ng-template>

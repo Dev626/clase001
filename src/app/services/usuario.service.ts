@@ -2,15 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
-
   collection_usuario: string = 'usuarios';
 
-  constructor(private angularFireStore: AngularFirestore) {
-
-  }
+  constructor(private angularFireStore: AngularFirestore) {}
 
   agregarCodigoID(usuario) {
     let fecha_actual_ms: string = new Date().getTime().toString();
@@ -19,21 +16,27 @@ export class UsuarioService {
   }
 
   listarUsuarios() {
-    return this.angularFireStore.collection(this.collection_usuario).valueChanges();
+    return this.angularFireStore
+      .collection(this.collection_usuario)
+      .valueChanges();
   }
 
   registrarUsuario(usuario) {
     usuario.usuario_id = this.agregarCodigoID(usuario);
-    return this.angularFireStore.doc(this.collection_usuario + '/' + usuario.usuario_id).set(usuario);
+    return this.angularFireStore
+      .doc(this.collection_usuario + '/' + usuario.usuario_id)
+      .set(usuario);
   }
 
   actualizarUsuario(usuario) {
-    return this.angularFireStore.doc(this.collection_usuario + '/' + usuario.usuario_id).update(usuario);
+    return this.angularFireStore
+      .doc(this.collection_usuario + '/' + usuario.usuario_id)
+      .update(usuario);
   }
 
-  eliminarUsuario(usuario) {
-    console.log('usuario:', usuario)
-    console.log('this.collection_usuario  usuario.usuario_id:', this.collection_usuario + '/' + usuario.usuario_id)
-    return this.angularFireStore.doc(this.collection_usuario + '/' + usuario.usuario_id).delete();
+  eliminarUsuario(usuario_id) {
+    return this.angularFireStore
+      .doc(this.collection_usuario + '/' + usuario_id)
+      .delete();
   }
 }
