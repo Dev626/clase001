@@ -22,6 +22,7 @@
         <th>Apellidos</th>
         <th>Correo</th>
         <th>Telefono</th>
+        <th>Clave</th>
       </thead>
       <tbody>
         <tr *ngFor="let usuario of lista_usuarios">
@@ -48,6 +49,7 @@
           <td>{{ usuario.apellidos }}</td>
           <td>{{ usuario.correo }}</td>
           <td>{{ usuario.nro_telefono }}</td>
+          <td>{{ usuario.clave }}</td>
         </tr>
       </tbody>
     </table>

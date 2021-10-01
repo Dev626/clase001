@@ -6,20 +6,28 @@ import { ContentViewComponent } from '@components/content-view/content-view.comp
 import { MyComponent } from '@components/my-component/my-component.component';
 import { TopbarComponent } from '@components/topbar/topbar.component';
 import { CalculadoraComponent } from './components/calculadora/calculadora.component';
+import { LoginComponent } from './components/login/login.component';
+import { GuardService } from './services/guard/guard.service';
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'login', component: LoginComponent },
   {
     path: 'home',
     component: ContentViewComponent,
-    // children: [
-    //   { path: 'user', component: MyComponent }
-    // ]
+    canActivate: [GuardService],
   },
-  { path: 'calculadora', component: CalculadoraComponent },
-  { path: 'home/user', component: MyComponent },
-  { path: 'home/user/:usuario_id', component: MyComponent },
-  // { path: 'home', component: ContentViewComponent }
+  {
+    path: 'calculadora',
+    component: CalculadoraComponent,
+    canActivate: [GuardService],
+  },
+  { path: 'home/user', component: MyComponent, canActivate: [GuardService] },
+  {
+    path: 'home/user/:usuario_id',
+    component: MyComponent,
+    canActivate: [GuardService],
+  },
 ];
 
 @NgModule({

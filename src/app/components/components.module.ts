@@ -23,6 +23,7 @@ import { ThirdComponent } from './third/third.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { UserActionsComponent } from './user-actions/user-actions.component';
 import { CalculadoraComponent } from './calculadora/calculadora.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { CalculadoraComponent } from './calculadora/calculadora.component';
     UppercasePipe,
     CustomdatePipe,
     CalculadoraComponent,
+    LoginComponent,
 
   ],
   exports: [
